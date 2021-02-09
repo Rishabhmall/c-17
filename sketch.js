@@ -1,109 +1,47 @@
+var car,wall;
 
-var monkey , monkey_running
-var banana ,bananaImage, obstacle, obstacleImage
-var FoodGroup, obstacleGroup
-var score
+var speed,weight;
 
-function preload(){
-  
-  
-  monkey_running =            loadAnimation("sprite_0.png","sprite_1.png","sprite_2.png","sprite_3.png","sprite_4.png","sprite_5.png","sprite_6.png","sprite_7.png","sprite_8.png")
-  
-  bananaImage = loadImage("banana.png");
-  obstaceImage = loadImage("obstacle.png");
- 
-}
+
 
 
 
 function setup() {
-//createCanvas(600,600);
+  createCanvas(1600,400);
   
   
- 
-  var survivalTime=0; 
+  speed=random(55,90);
+  weight=random(400,1500)
   
-  //creating monkey
-monkey=createSprite(80,315,20,20);
-monkey.addAnimation("moving",monkey_running);
-//monkey.addImage(bananaImage)
-monkey.scale=0.1  
+  car=createSprite(50,200,50,50);
 
-ground = createSprite(400,350,900,10);
-ground.velocityx=-4;
-ground.x=ground.width/2;
-console.log(ground.x);
+  car.velocityX = speed;
   
+   car.shapeColor=color(255);
 
-  
-  
-  stroke("white");
-textSize(20);
-fill("white"); 
-  stroke("black");
-textSize(20);
-fill("black");  
-survivalTime=Math.ceil(frameCount/frameRate())    
-text("survivalTime: "+ survivalTime,100,50);  
-  
+
+   wall = createSprite(1500,200,60,height/2)
+   wall.shapeColor = color(80,80,80);
+
 }
-
 
 function draw() {
-background(255);
-
- if(ground.x<0){
-   ground.x=ground.width/2;
- }
- 
-  if(keyDown("space")){
-    monkey.velocityY=-12;
-  } 
-    monkey.velocityY=monkey.velocityY + 0.8;
+  background(0);
   
-    monkey.collide(ground);
+if(wall.x-car.x < (car.width+wall.width)/2);
+
+{
+      car.velocityX=0;
+      var deformation=0.5 * weigt * speed* speed/22500;
+      if(deformation>180)    
+     {
+           car.shapeColor=color(255,0,0);
+     }
+     if(deformation<180 && deformation>100);
+     {
+         car.shapeColor=color(230,230,0);
+     }
+}
+
   drawSprites();
 }
- function spawnFood(){
-   if(World.frameCount%80===0){
-    banana=createSprite(600,250,40,10);
-    banana.y=random(120,200);
-    banana.velocityX = -5;
-    
- 
-     //assign lifetime to the variable
-     banana.lifetime=300;
-     monkey.depth = banana.depth + 1;
-   
-     //add image of banana
-     banana.addImage(bananaImage);
-     banana.scale = 0.05;
-     
-     //add each banana to the group
-     FoodGroup.add(banana);
-     
-   }
- }
-
-function spawnObstacles(){
-  if(frameCount % 300 === 0){
-    obstacle = createSprite(800,320,10,40);
-    obstacle.velocityX = -6;
-    
-    //add image to the obstacle
-    obstacle.addImage(obstacleImage);
-    obstacle.scale=0.15;
-    
-    //lifetime to the obstacle
-    obsatacle.lifetime = 300;
-    
-    //add each obstacle to the group
-    obstaclesGroup.add(obstacle);
-  }
-}
-
-
-
-
-
-
